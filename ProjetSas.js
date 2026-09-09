@@ -276,11 +276,11 @@ function verifierExistenceTrajet(tripId) {
 
 // vérifier qu'il reste au moins une place disponible
 function verifierExistencePlace(tripId) {
-    if (!verifierExistenceTrajet(tripId)) {
-        return false; 
-    }else{
     const trajet = chercheTrajet(tripId);
-     return trajet.availableSeats > 0;
-    
+    if (!verifierExistenceTrajet(tripId) && trajet.availableSeats <= 0) {
+        return false;
     }
+    return true;
 }
+
+
