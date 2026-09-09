@@ -340,8 +340,24 @@ function acheterTicket(NomDuPassager, trajetId) {
 
 //5. Afficher les tickets
 function affichageTicket(tickets) {
-    for (let i = 0; i < tickets.length; i++) {
-        console.log(tickets[i]);
+    if (tickets.length === 0) {
+        console.log("Aucun ticket enregistré.");
+        return tickets;
     }
+    console.log("===TICKETS===");
+    console.log(" ");
+    for (let i = 0; i < tickets.length; i++) {
+        const ticket = tickets[i];
+        const trajet = chercheTrajet(ticket.tripId);
+
+        console.log("Ticket #" + ticket.id);
+        console.log("Passager : " + ticket.passengerName);
+        console.log("Trajet : " + trajet.departure + " → " + trajet.arrival);
+        console.log("Place : " + ticket.seatNumber);
+        console.log("Prix : " + ticket.price);
+        console.log("");
+    }
+
     return tickets;
 }
+
