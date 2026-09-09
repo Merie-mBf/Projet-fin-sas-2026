@@ -203,6 +203,7 @@ do {
             let NomDuPassager = prompt('Nom du passager :  ');
             let tripId = Number(prompt('Identifiant du trajet :   '));
             console.log(chercheTrajet(tripId));
+            console.log(verifierExistenceTrajet(tripId));
             break;
 
         case 3:
@@ -233,6 +234,7 @@ do {
 
 } while (choix != 0);
 
+//3. Afficher les trajets
 function affichageTrajet(trips) {
     if (trips.length === 0) {
         console.log("il n'y a aucun trajet pour le moment")
@@ -250,11 +252,26 @@ function affichageTrajet(trips) {
 
 }
 
-function chercheTrajet(tripId){
-    for(let i=0;i<trips.length;i++){
-        if(trips[i].id===tripId){
+//4. Acheter un ticket
+//rechercher le trajet correspondant ;
+function chercheTrajet(tripId) {
+    for (let i = 0; i < trips.length; i++) {
+        if (trips[i].id === tripId) {
+            ;
             return trips[i];
+        } else {
+            return undefined;
         }
     }
-    return ("aucun trajet ayant ce Id")
+
+}
+
+//vérifier que le trajet existe ;
+function verifierExistenceTrajet(tripId) {
+    const trajet = chercheTrajet(tripId);
+    if (trajet !== undefined) {
+        return true;
+    } else {
+        return false;
+    }
 }
