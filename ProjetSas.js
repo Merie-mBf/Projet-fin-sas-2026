@@ -203,14 +203,12 @@ do {
         case 2:
             let NomDuPassager = prompt('Nom du passager :  ');
             let trajetId = Number(prompt('Identifiant du trajet :   '));
-            console.log(chercheTrajet(trajetId));
-            console.log(verifierExistenceTrajet(trajetId));
-            console.log(verifierExistencePlace(trajetId));
-            console.log(createTicket(NomDuPassager, trajetId));
+            acheterTicket(NomDuPassager, trajetId);
+
             break;
 
         case 3:
-
+            affichageTicket(tickets);
             break;
 
         case 4:
@@ -295,8 +293,55 @@ function createTicket(NomDuPassager, trajetId) {
         id: tickets.length + 1,
         passengerName: NomDuPassager,
         tripId: trajet.id,
-        seatNumber: trips.availableSeats - trajet.availableSeats + 1,
-        price: trajet.price
+        seatNumber: 50 - trajet.availableSeats + 1,
+        price: trajet.price + "DH"
     };
+    diminuerPlace(trajetId);
+    ajouterTicket(newTicket);
     return newTicket;
+}
+
+//diminuer le nombre de places disponibles ;
+function diminuerPlace(trajetId) {
+    const trajet = chercheTrajet(trajetId);
+    trajet.availableSeats -= 1;
+}
+//ajouter le ticket au tableau des tickets.
+function ajouterTicket(newTicket) {
+    tickets.push(newTicket);
+}
+//acheter un ticket
+function acheterTicket(NomDuPassager, trajetId) {
+
+    if (!verifierExistenceTrajet(trajetId)) {
+        console.log("Trajet introuvable.");
+        return undefined;
+    }
+
+
+    if (!verifierExistencePlace(trajetId)) {
+        console.log("Train complet.");
+        return undefined;
+    }
+
+    const newTicket = createTicket(NomDuPassager, trajetId);
+    const trajet = chercheTrajet(trajetId);
+
+    console.log("Ticket acheté avec succès.");
+    console.log("");
+    console.log("Ticket #" + newTicket.id);
+    console.log("Passager : " + newTicket.passengerName);
+    console.log("Trajet : " + trajet.departure + " → " + trajet.destination);
+    console.log("Place : " + newTicket.seatNumber);
+    console.log("Prix : " + newTicket.price);
+
+    return newTicket;
+}
+
+//5. Afficher les tickets
+function affichageTicket(tickets) {
+    for (let i = 0; i < tickets.length; i++) {
+        console.log(tickets[i]);
+    }
+    return tickets;
 }
