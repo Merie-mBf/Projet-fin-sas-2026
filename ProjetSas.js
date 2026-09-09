@@ -204,6 +204,7 @@ do {
             let tripId = Number(prompt('Identifiant du trajet :   '));
             console.log(chercheTrajet(tripId));
             console.log(verifierExistenceTrajet(tripId));
+            console.log(verifierExistencePlace(tripId));
             break;
 
         case 3:
@@ -253,25 +254,33 @@ function affichageTrajet(trips) {
 }
 
 //4. Acheter un ticket
-//rechercher le trajet correspondant ;
+// rechercher le trajet correspondant
 function chercheTrajet(tripId) {
     for (let i = 0; i < trips.length; i++) {
         if (trips[i].id === tripId) {
-            ;
             return trips[i];
-        } else {
-            return undefined;
         }
     }
-
+    return undefined;
 }
 
-//vérifier que le trajet existe ;
+// vérifier que le trajet existe
 function verifierExistenceTrajet(tripId) {
     const trajet = chercheTrajet(tripId);
     if (trajet !== undefined) {
         return true;
     } else {
         return false;
+    }
+}
+
+// vérifier qu'il reste au moins une place disponible
+function verifierExistencePlace(tripId) {
+    if (!verifierExistenceTrajet(tripId)) {
+        return false; 
+    }else{
+    const trajet = chercheTrajet(tripId);
+     return trajet.availableSeats > 0;
+    
     }
 }
