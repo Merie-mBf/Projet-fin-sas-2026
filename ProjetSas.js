@@ -212,7 +212,9 @@ do {
             break;
 
         case 4:
-
+            let ticketId = Number(prompt('Identifiant du ticket :   '));
+            console.log(rechercheTicket(ticketId));
+            console.log(verifierExistenceTicket(ticketId));
             break;
 
         case 5:
@@ -361,3 +363,24 @@ function affichageTicket(tickets) {
     return tickets;
 }
 
+//6. Annuler un ticket
+//rechercher le ticket 
+function rechercheTicket(ticketId) {
+    for (let i = 0; i < tickets.length; i++) {
+        if (tickets[i].id === ticketId) {
+            return tickets[i];
+        }
+    }
+    return undefined;
+}
+
+//verifer exestence du ticket:
+function verifierExistenceTicket(ticketId) {
+    const ticket = rechercheTicket(ticketId);
+    if (ticket !== undefined) {
+        return true;
+    } else {
+        return false;
+    }
+}
+//retrouver le trajet associé ;
