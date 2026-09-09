@@ -196,50 +196,65 @@ do {
     choix = Number(prompt('Votre choix : '));
     switch (choix) {
         case 1:
-             affichageTrajet(trips)
+            affichageTrajet(trips)
             break;
 
         case 2:
-            
+            let NomDuPassager = prompt('Nom du passager :  ');
+            let tripId = Number(prompt('Identifiant du trajet :   '));
+            console.log(chercheTrajet(tripId));
             break;
 
         case 3:
-            
+
             break;
 
         case 4:
-            
+
             break;
 
         case 5:
-            
+
             break;
         case 6:
-            
+
             break;
         case 7:
-            
+
             break;
 
-        case 8:
-           
+        case 0:
+            console.log("Merci, a bientot!");
             break;
 
         default:
             console.log("Choix invalide, essayez encore");
     }
 
-} while (choix != 8);
-    
-function affichageTrajet(trips){
+} while (choix != 0);
+
+function affichageTrajet(trips) {
+    if (trips.length === 0) {
+        console.log("il n'y a aucun trajet pour le moment")
+        return
+    }
     console.log("=== TRAJETS DISPONIBLES ===");
-for (const trip of trips) {
-  console.log(`#${trip.id} ${trip.departure} → ${trip.destination}`);
-  console.log(`Départ : ${trip.departureTime}`);
-  console.log(`Arrivée : ${trip.arrivalTime}`);
-  console.log(`Prix : ${trip.price} DH`);
-  console.log(`Places disponibles : ${trip.availableSeats}`);
-  console.log("");
+    for (const trip of trips) {
+        console.log("#" + trip.id + " " + trip.departure + " -> " + trip.destination);
+        console.log("Départ : " + trip.departureTime);
+        console.log("Arrivée : " + trip.arrivalTime);
+        console.log("Prix : " + trip.price + "DH");
+        console.log("Places disponibles : " + trip.availableSeats);
+        console.log("");
+    }
+
 }
 
+function chercheTrajet(tripId){
+    for(let i=0;i<trips.length;i++){
+        if(trips[i].id===tripId){
+            return trips[i];
+        }
+    }
+    return ("aucun trajet ayant ce Id")
 }
