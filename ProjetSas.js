@@ -181,6 +181,7 @@ const trips = [
         availableSeats: 50
     }
 ];
+const tickets = [];
 let choix;
 do {
     console.log("===== RAILWAY MANAGER=====");
@@ -201,10 +202,11 @@ do {
 
         case 2:
             let NomDuPassager = prompt('Nom du passager :  ');
-            let tripId = Number(prompt('Identifiant du trajet :   '));
-            console.log(chercheTrajet(tripId));
-            console.log(verifierExistenceTrajet(tripId));
-            console.log(verifierExistencePlace(tripId));
+            let trajetId = Number(prompt('Identifiant du trajet :   '));
+            console.log(chercheTrajet(trajetId));
+            console.log(verifierExistenceTrajet(trajetId));
+            console.log(verifierExistencePlace(trajetId));
+            console.log(createTicket(NomDuPassager, trajetId));
             break;
 
         case 3:
@@ -255,9 +257,9 @@ function affichageTrajet(trips) {
 
 //4. Acheter un ticket
 // rechercher le trajet correspondant
-function chercheTrajet(tripId) {
+function chercheTrajet(trajetId) {
     for (let i = 0; i < trips.length; i++) {
-        if (trips[i].id === tripId) {
+        if (trips[i].id === trajetId) {
             return trips[i];
         }
     }
@@ -265,8 +267,8 @@ function chercheTrajet(tripId) {
 }
 
 // vérifier que le trajet existe
-function verifierExistenceTrajet(tripId) {
-    const trajet = chercheTrajet(tripId);
+function verifierExistenceTrajet(trajetId) {
+    const trajet = chercheTrajet(trajetId);
     if (trajet !== undefined) {
         return true;
     } else {
@@ -275,12 +277,26 @@ function verifierExistenceTrajet(tripId) {
 }
 
 // vérifier qu'il reste au moins une place disponible
-function verifierExistencePlace(tripId) {
-    const trajet = chercheTrajet(tripId);
-    if (!verifierExistenceTrajet(tripId) && trajet.availableSeats <= 0) {
+function verifierExistencePlace(trajetId) {
+    const trajet = chercheTrajet(trajetId);
+    if (!verifierExistenceTrajet(trajetId) || trajet.availableSeats <= 0) {
         return false;
     }
     return true;
 }
 
-
+//créer un ticket ;
+function createTicket(NomDuPassager, trajetId) {
+    if (!verifierExistencePlace(trajetId)) {
+        return undefined;
+    }
+    const trajet = chercheTrajet(trajetId);
+    const newTicket = {
+        id: tickets.length + 1,
+        passengerName: NomDuPassager,
+        tripId: trajet.id,
+        seatNumber: trips.availableSeats - trajet.availableSeats + 1,
+        price: trajet.price
+    };
+    return newTicket;
+}
