@@ -222,6 +222,8 @@ do {
             affichageTicket(resultatsRecherhce);
             break;
         case 6:
+            let villeDepart = prompt('Ville de depart  :  ');
+            filterVille(villeDepart);
 
             break;
         case 7:
@@ -296,7 +298,7 @@ function createTicket(NomDuPassager, trajetId) {
         id: tickets.length + 1,
         passengerName: NomDuPassager,
         tripId: trajet.id,
-        seatNumber: trips.availableSeats - trajet.availableSeats + 1,
+        seatNumber: 50 - trajet.availableSeats + 1,
         price: trajet.price + "DH"
     };
     diminuerPlace(trajetId);
@@ -387,8 +389,7 @@ function verifierExistenceTicket(ticketId) {
 //retrouver le trajet associé ;
 function retrouverTrajetTicket(ticketId) {
     const ticket = rechercheTicket(ticketId);
-    const trajetId = ticket.tripId;
-    return trajetId;
+    return trajetId = ticket.tripId;
 }
 //supprimer le ticket
 function supprimerTicket(ticketId) {
@@ -467,4 +468,20 @@ function chercherTicketsParNom(NomPassager) {
         }
     }
     return resultats;
+}
+
+//8. Filtrer les trajets 
+function filterVille(villeDepart) {
+    let newTrips = [];
+    let ii = 0;
+    console.log("")
+    console.log("Resultat:");
+    for (let i = 0; i < trips.length; i++) {
+        if (trips[i].departure === villeDepart) {
+            console.log("");
+            console.log(trips[i].departure + "->" + trips[i].destination + ":" + trips[i].price + "DH");
+            ii++;
+        }
+    }
+    return newTrips;
 }
