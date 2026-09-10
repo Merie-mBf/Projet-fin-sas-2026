@@ -213,12 +213,13 @@ do {
 
         case 4:
             let ticketId = Number(prompt('Identifiant du ticket :   '));
-            console.log(rechercheTicket(ticketId));
-            console.log(verifierExistenceTicket(ticketId));
+            annulerTicket(ticketId)
             break;
 
         case 5:
-
+            let NomPassager = prompt('Nom du passager :  ');
+            let resultatsRecherhce=chercherTicketsParNom(NomPassager);
+            affichageTicket(resultatsRecherhce);
             break;
         case 6:
 
@@ -295,7 +296,7 @@ function createTicket(NomDuPassager, trajetId) {
         id: tickets.length + 1,
         passengerName: NomDuPassager,
         tripId: trajet.id,
-        seatNumber: 50 - trajet.availableSeats + 1,
+        seatNumber: trajet.availableSeats - trajet.availableSeats + 1,
         price: trajet.price + "DH"
     };
     diminuerPlace(trajetId);
@@ -354,7 +355,7 @@ function affichageTicket(tickets) {
 
         console.log("Ticket #" + ticket.id);
         console.log("Passager : " + ticket.passengerName);
-        console.log("Trajet : " + trajet.departure + " → " + trajet.arrival);
+        console.log("Trajet : " + trajet.departure + " → " + trajet.destination);
         console.log("Place : " + ticket.seatNumber);
         console.log("Prix : " + ticket.price);
         console.log("");
@@ -384,3 +385,8 @@ function verifierExistenceTicket(ticketId) {
     }
 }
 //retrouver le trajet associé ;
+function retrouverTrajetTicket(ticketId) {
+    const ticket = rechercheTicket(ticketId);
+    const trajetId = ticket.tripId;
+    return trajetId;
+}
