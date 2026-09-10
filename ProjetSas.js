@@ -473,15 +473,25 @@ function chercherTicketsParNom(NomPassager) {
 //8. Filtrer les trajets 
 function filterVille(villeDepart) {
     let newTrips = [];
-    let ii = 0;
-    console.log("")
-    console.log("Resultat:");
+    let ii=0;
     for (let i = 0; i < trips.length; i++) {
         if (trips[i].departure === villeDepart) {
-            console.log("");
-            console.log(trips[i].departure + "->" + trips[i].destination + ":" + trips[i].price + "DH");
+            newTrips[ii] = trips[i];
             ii++;
         }
     }
+    if (newTrips.length === 0) {
+        console.log("aucun trajet trouve pour cette ville")
+        return null;
+    }
+    console.log("Resultat:");
+    for (let i = 0; i < newTrips.length; i++) {
+        console.log(newTrips[i].departure + "->" + newTrips[i].destination + ":" + newTrips[i].price + "DH");
+    }
     return newTrips;
+}
+
+//9. Trier les trajets 
+function trierTrajet(trips) {
+    let t
 }
