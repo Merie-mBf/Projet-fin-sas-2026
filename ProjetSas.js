@@ -218,7 +218,7 @@ do {
 
         case 5:
             let NomPassager = prompt('Nom du passager :  ');
-            let resultatsRecherhce=chercherTicketsParNom(NomPassager);
+            let resultatsRecherhce = chercherTicketsParNom(NomPassager);
             affichageTicket(resultatsRecherhce);
             break;
         case 6:
@@ -296,7 +296,7 @@ function createTicket(NomDuPassager, trajetId) {
         id: tickets.length + 1,
         passengerName: NomDuPassager,
         tripId: trajet.id,
-        seatNumber: trajet.availableSeats - trajet.availableSeats + 1,
+        seatNumber: trips.availableSeats - trajet.availableSeats + 1,
         price: trajet.price + "DH"
     };
     diminuerPlace(trajetId);
@@ -437,3 +437,34 @@ function annulerTicket(ticketId) {
 }
 
 
+//fonction principale : annuler un ticket
+function annulerTicket(ticketId) {
+
+    if (verifierExistenceTicket(ticketId) === false) {
+        console.log("Ticket introuvable.");
+        return;
+    }
+
+    const trajetId = retrouverTrajetTicket(ticketId);
+
+    supprimerTicket(ticketId);
+
+    augmenterPlacesDisponibles(trajetId);
+
+    console.log("Ticket annulé avec succès.");
+}
+
+
+//7. Rechercher un ticket 
+function chercherTicketsParNom(NomPassager) {
+    let resultats = [];
+    let indexResultat = 0;
+
+    for (let i = 0; i < tickets.length; i++) {
+        if (tickets[i].passengerName === NomPassager) {
+            resultats[indexResultat] = tickets[i];
+            indexResultat++;
+        }
+    }
+    return resultats;
+}
