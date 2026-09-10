@@ -390,3 +390,63 @@ function retrouverTrajetTicket(ticketId) {
     const trajetId = ticket.tripId;
     return trajetId;
 }
+//supprimer le ticket
+function supprimerTicket(ticketId) {
+    let indexTicket = -1;
+    for (let i = 0; i < tickets.length; i++) {
+        if (tickets[i].id === ticketId) {
+            indexTicket = i;
+        }
+    }
+    if (indexTicket === -1) {
+        return false;
+    }
+    for (let i = indexTicket; i < tickets.length - 1; i++) {
+        tickets[i] = tickets[i + 1];
+    }
+    tickets.length = tickets.length - 1;
+    return true;
+
+}
+//augmenter le nombre de places disponibles du trajet de 1
+function augmenterPlacesDisponibles(trajetId) {
+    for (let i = 0; i < trips.length; i++) {
+        if (trips[i].id === trajetId) {
+            trips[i].availableSeats = trips[i].availableSeats + 1;
+            return true;
+        }
+    }
+    return false;
+}
+
+//fonction principale : annuler un ticket
+function annulerTicket(ticketId) {
+
+    if (verifierExistenceTicket(ticketId) === false) {
+        console.log("Ticket introuvable.");
+        return;
+    }
+
+    const trajetId = retrouverTrajetTicket(ticketId);
+
+    supprimerTicket(ticketId);
+
+    augmenterPlacesDisponibles(trajetId);
+
+    console.log("Ticket annulé avec succès.");
+}
+
+
+//7. Rechercher un ticket 
+function chercherTicketsParNom(NomPassager) {
+    let resultats = [];
+    let indexResultat = 0;
+
+    for (let i = 0; i < tickets.length; i++) {
+        if (tickets[i].passengerName === NomPassager) {
+            resultats[indexResultat] = tickets[i];
+            indexResultat++;
+        }
+    }
+    return resultats;
+}
