@@ -437,16 +437,3 @@ function annulerTicket(ticketId) {
 }
 
 
-//7. Rechercher un ticket 
-function chercherTicketsParNom(NomPassager) {
-    let resultats = [];
-    let indexResultat = 0;
-
-    for (let i = 0; i < tickets.length; i++) {
-        if (tickets[i].passengerName === NomPassager) {
-            resultats[indexResultat] = tickets[i];
-            indexResultat++;
-        }
-    }
-    return resultats;
-}
