@@ -182,6 +182,7 @@ const trips = [
     }
 ];
 const tickets = [];
+let nextTicketId = 1;
 let choix;
 do {
     console.log("===== RAILWAY MANAGER=====");
@@ -230,7 +231,7 @@ do {
             trierTrajet(trips);
             console.log("Nombre total de tickets vendus: " + nombreTotalTickets(tickets))
             console.log("Chiffre d'affaires total: " + chiffreAffaireT(tickets) + "DH")
-             console.log(trajetLePlusVendu(tickets, trips))
+            trajetLePlusVendu(tickets, trips)
             break;
 
         case 0:
@@ -292,13 +293,23 @@ function verifierExistencePlace(trajetId) {
 }
 
 //créer un ticket ;
+// Compteur global d'id de ticket
+
+
+function genererIdTicket() {
+    const id = nextTicketId;
+    nextTicketId = nextTicketId + 1;
+    return id;
+}
+
+//créer un ticket ;
 function createTicket(NomDuPassager, trajetId) {
     if (!verifierExistencePlace(trajetId)) {
         return undefined;
     }
     const trajet = chercheTrajet(trajetId);
     const newTicket = {
-        id: tickets.length + 1,
+        id: genererIdTicket(),
         passengerName: NomDuPassager,
         tripId: trajet.id,
         seatNumber: 50 - trajet.availableSeats + 1,
@@ -346,13 +357,13 @@ function acheterTicket(NomDuPassager, trajetId) {
     return newTicket;
 }
 
-//5. Afficher les tickets
+//5.Recherche les tickets
 function affichageTicket(tickets) {
     if (tickets.length === 0) {
         console.log("Aucun ticket enregistré.");
         return tickets;
     }
-    console.log("===TICKETS===");
+    console.log("===TICKETS RECHERCHER===");
     console.log(" ");
     for (let i = 0; i < tickets.length; i++) {
         const ticket = tickets[i];
@@ -392,7 +403,7 @@ function verifierExistenceTicket(ticketId) {
 //retrouver le trajet associé ;
 function retrouverTrajetTicket(ticketId) {
     const ticket = rechercheTicket(ticketId);
-    return trajetId = ticket.tripId;
+    return ticket.tripId;
 }
 //supprimer le ticket
 function supprimerTicket(ticketId) {
@@ -422,24 +433,6 @@ function augmenterPlacesDisponibles(trajetId) {
     }
     return false;
 }
-
-//fonction principale : annuler un ticket
-function annulerTicket(ticketId) {
-
-    if (verifierExistenceTicket(ticketId) === false) {
-        console.log("Ticket introuvable.");
-        return;
-    }
-
-    const trajetId = retrouverTrajetTicket(ticketId);
-
-    supprimerTicket(ticketId);
-
-    augmenterPlacesDisponibles(trajetId);
-
-    console.log("Ticket annulé avec succès.");
-}
-
 
 //fonction principale : annuler un ticket
 function annulerTicket(ticketId) {
@@ -521,7 +514,7 @@ function nombreTotalTickets(tickets) {
 //Chiffre d'affaires total 
 function chiffreAffaireT(tickets) {
     somme = 0;
-    for (i = 0; i < tickets.length; i++) {
+    for (let i = 0; i < tickets.length; i++) {
         somme += tickets[i].price;
     }
     return somme;
