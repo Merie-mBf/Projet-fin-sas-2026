@@ -227,7 +227,10 @@ do {
 
             break;
         case 7:
-
+            trierTrajet(trips);
+            console.log("Nombre total de tickets vendus: " + nombreTotalTickets(tickets))
+            console.log("Chiffre d'affaires total: " + chiffreAffaireT(tickets) + "DH")
+             console.log(trajetLePlusVendu(tickets, trips))
             break;
 
         case 0:
@@ -299,7 +302,7 @@ function createTicket(NomDuPassager, trajetId) {
         passengerName: NomDuPassager,
         tripId: trajet.id,
         seatNumber: 50 - trajet.availableSeats + 1,
-        price: trajet.price + "DH"
+        price: trajet.price
     };
     diminuerPlace(trajetId);
     ajouterTicket(newTicket);
@@ -473,7 +476,7 @@ function chercherTicketsParNom(NomPassager) {
 //8. Filtrer les trajets 
 function filterVille(villeDepart) {
     let newTrips = [];
-    let ii=0;
+    let ii = 0;
     for (let i = 0; i < trips.length; i++) {
         if (trips[i].departure === villeDepart) {
             newTrips[ii] = trips[i];
@@ -493,5 +496,33 @@ function filterVille(villeDepart) {
 
 //9. Trier les trajets 
 function trierTrajet(trips) {
-    let t
+    for (let i = 0; i < trips.length; i++) {
+        for (let j = 0; j < trips.length - 1; j++) {
+            if (trips[j].price > trips[j + 1].price) {
+                let elem = trips[j]
+                trips[j] = trips[j + 1]
+                trips[j + 1] = elem
+            }
+        }
+    }
+    for (let i = 0; i < trips.length; i++) {
+        console.log(trips[i].departure + "->" + trips[i].destination + ":" + trips[i].price + "DH");
+    }
+
+}
+
+//Bonus
+//Nombre total de tickets vendus 
+function nombreTotalTickets(tickets) {
+
+    return tickets.length;
+
+}
+//Chiffre d'affaires total 
+function chiffreAffaireT(tickets) {
+    somme = 0;
+    for (i = 0; i < tickets.length; i++) {
+        somme += tickets[i].price;
+    }
+    return somme;
 }
